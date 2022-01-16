@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Main{% endblock %}
+
+{% block style %}
+
+<style>
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="w3-display-center">
+    <form class="w3-xlarge" action="/main" method="post">
+        <div class="w3-display-left">
+
+            <input class="w3-input w3-border" type="text" name="company" placeholder="Game Company">                              
+            <input class="w3-input w3-border" type="text" name="game_system" placeholder="Game System">                           
+            <input class="w3-input w3-border" type="text" name="game_faction" placeholder="Game Faction">                         
+            <input class="w3-input w3-border" type="text" name="project_name" placeholder="Project Name">                     
+
+        </div>
+
+        <div>
+            <button class="btn-lg w3-block btn-primary w3-small" type="submit" style="opacity: 1;">Submit</button>       
+        </div>
+    </form>
+  
+    </div>
+
+
+</div>
+
+
+{% endblock %}
+

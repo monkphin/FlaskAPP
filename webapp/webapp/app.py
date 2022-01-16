@@ -51,6 +51,7 @@ def register():
     return render_template("register.html")
 
 
+
 @app.route('/verify', methods=['POST'])
 def verify():
     if request.method == 'POST':
@@ -65,46 +66,61 @@ def verify():
             if user_list[0]['COUNT(*)'] > 0:                     
                 cursor.close()
                 return render_template("main.html")
-
-
     return render_template("login.html")
 
-@app.route('/main', methods=['POST, GET'])
-def main():
+
+#Main page for the site - core functionality of app is here split over two frames - systems and minis, sysmes being where the game system data is, minis being where the collection data is. 
+@app.route('/systems', methods=['POST'])
+def systems():
     if request.method == 'POST':
-        if request.form['uname'] != "" and request.form['pwd'] != "":
+        if request.form['company'] != "" and request.form['game_system'] != "" and request.form['game_faction'] != "" and request.form['project_name'] != "":
             company = request.form['company']
             game_system = request.form['game_system']
             game_faction = request.form['game_faction']
             project_name = request.form['project_name']
             mininame = request.form['mininame']
+            cursor = dbRoutines.mysql.connection.cursor()
+            cursor.execute(f"use webapp_db;")
+            cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
+            dbRoutines.mysql.connection.commit()                                            
+            cursor.close()          
+            return render_template("systems.html")
+
+@app.route('/minis', methods=['POST'])
+def main():
+    if request.method == 'POST':
+        if request.form['mininame'] != "" and request.form['mininum'] != "":
             mininum = request.form['mininum']
             minipoint = request.form['minipoint']
             minicost = request.form['minicost']
             cursor = dbRoutines.mysql.connection.cursor()
             cursor.execute(f"use webapp_db;")
-            cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
-            cursor.execute (f"INSERT INTO `Collection` (`MiniName`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{mininum}', '{minipoint}', '{minicost}');")
+            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{mininum}', '{minipoint}', '{minicost}');")
             dbRoutines.mysql.connection.commit()                                            
-            cursor.close()
+            cursor.close()          
             return render_template("main.html")
 
-@app.route('/account', methods=['POST'])
+'''
+
+#User account settings changed here. 
+@app.route('/account')
 def account():
     if request.method == 'POST':
-        lastname = request.form['lastname']
-        firstname = request.form['firstname']
-        email = request.form['email']
-        cursor = dbRoutines.mysql.connection.cursor()
-        cursor.execute(f"use webapp_db;")
-        cursor.execute (f"INSERT INTO `Persons` (`LastName`, `FirstName`, `email`) VALUES ('{lastname}', '{firstname}', '{email}')")
-        dbRoutines.mysql.connection.commit()                                            
-        cursor.close()
-        return render_template("account.html")
-    else:    
-        return render_template("account.html")
+        if request.form['pwd'] != "" and request.form['repwd'] != "" and request.form['pwd'] == request.form['repwd']:
+            userPwd = request.form['pwd']
+            lastname = request.form['lastname']
+            firstname = request.form['firstname']
+            email = request.form['email']
+            cursor = dbRoutines.mysql.connection.cursor()
+            cursor.execute(f"use webapp_db;")
+            cursor.execute (f"INSERT INTO `Persons` (`LastName`, `FirstName`, `email`) VALUES ('{lastname}', '{firstname}', '{email}')")
+            dbRoutines.mysql.connection.commit()                                            
+            cursor.close()
+            return render_template("account.html")
+        else:    
+            return render_template("account.html")
 
-
+'''
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)

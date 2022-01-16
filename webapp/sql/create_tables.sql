@@ -4,9 +4,9 @@ START TRANSACTION;
 USE webapp_db;
 
 -- Drop the Persons table if it exists
-DROP TABLE IF EXISTS Minis;
 DROP TABLE IF EXISTS Persons;
-DROP TABLE IF EXISTS Collection;
+DROP TABLE IF EXISTS Game_System;
+DROP TABLE IF EXISTS Mini_Collection;
 DROP TABLE IF EXISTS Credentials;
 
 
@@ -29,8 +29,8 @@ CREATE TABLE Persons (
     PRIMARY KEY (PersonID)
 );
 
--- Create the Minis table and set the uniqe auto_incrementing ID - This gives absolute 'core' level functions, in that we can add or remove items to a collection
-CREATE TABLE Collection (
+-- Create the Collection table and set the uniqe auto_incrementing ID - This gives absolute 'core' level functions, in that we can add or remove items to a collection
+CREATE TABLE Mini_Collection (
     MiniID int NOT NULL AUTO_INCREMENT,
     MiniName VARCHAR(255) NOT NULL,
     MiniNum int NOT NULL,
