@@ -66,26 +66,43 @@ def verify():
                 cursor.close()
                 return render_template("main.html")
 
+
     return render_template("login.html")
 
-@app.route('/main', methods=['POST'])
+@app.route('/main', methods=['POST, GET'])
 def main():
     if request.method == 'POST':
-        company = request.form['company']
-        game_system = request.form['game_system']
-        game_faction = request.form['game_faction']
-        project_name = request.form['project_name']
-        mininame = request.form['mininame']
-        mininum = request.form['mininum']
-        minipoint = request.form['minipoint']
-        minicost = request.form['minicost']
+        if request.form['uname'] != "" and request.form['pwd'] != "":
+            company = request.form['company']
+            game_system = request.form['game_system']
+            game_faction = request.form['game_faction']
+            project_name = request.form['project_name']
+            mininame = request.form['mininame']
+            mininum = request.form['mininum']
+            minipoint = request.form['minipoint']
+            minicost = request.form['minicost']
+            cursor = dbRoutines.mysql.connection.cursor()
+            cursor.execute(f"use webapp_db;")
+            cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
+            cursor.execute (f"INSERT INTO `Collection` (`MiniName`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{mininum}', '{minipoint}', '{minicost}');")
+            dbRoutines.mysql.connection.commit()                                            
+            cursor.close()
+            return render_template("main.html")
+
+@app.route('/account', methods=['POST'])
+def account():
+    if request.method == 'POST':
+        lastname = request.form['lastname']
+        firstname = request.form['firstname']
+        email = request.form['email']
         cursor = dbRoutines.mysql.connection.cursor()
         cursor.execute(f"use webapp_db;")
-        cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('company', 'game_system', 'game_faction', 'project_name');")
-        cursor.execute (f"INSERT INTO `Collection` (`MiniName`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{mininum}', '{minipoint}', '{minicost}');")
+        cursor.execute (f"INSERT INTO `Persons` (`LastName`, `FirstName`, `email`) VALUES ('{lastname}', '{firstname}', '{email}')")
         dbRoutines.mysql.connection.commit()                                            
         cursor.close()
-        return render_template("main.html")
+        return render_template("account.html")
+    else:    
+        return render_template("account.html")
 
 
 

@@ -25,7 +25,6 @@ CREATE TABLE Persons (
     LastName varchar(255) NOT NULL,
     FirstName varchar(255),
     email varchar(255) NOT NULL,
-    addr varchar(1024),
 
     PRIMARY KEY (PersonID)
 );
