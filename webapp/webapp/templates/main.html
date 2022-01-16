@@ -14,32 +14,20 @@
 {% block content %}
 
 <div class="w3-display-middle">
-<form>
-    <table class="w3-table">
-        <tr>
-           <th>Mini Name</th>
-           <th>Amount of Minis</th>
-           <th>Points Cost</th>
-           <th>Monetary Cost</th>
-        </tr>
-        <tr>
-           <th><input type="text" name="mininame" placeholder="Name of Unit"></th>
-           <th><input type="number" name="mininum" placeholder="Number of Minis"></th>
-           <th><input type="number" name="minipoint" placeholder="Points Cost"></th>
-           <th><input type="number" name="minicost" placeholder="Financial Cost"></th>
-        </tr>
-        <tr>
-            <th></th>
-            <th>
-            <div class="w3-bar w3-small w3-orange w3-padding">
-                <button class="w3-bar-item w3-button w3-green" type="submit" style="width:33%">Submit</button>
-              </div>
-              </th>th>
-              <th></th>
-        </tr>
-        </table>
-    </form>        
- </div>
+
+    <div class="w3-container" style="opacity: 0.7;">
+
+        <form class="w3-xlarge" action="/main" method="post">
+
+            <input class="w3-input w3-border" type="text" name="mininame" placeholder="Name of Mini">                              
+            <input class="w3-input w3-border" type="number" name="mininum" placeholder="Amount">                           
+            <input class="w3-input w3-border" type="number" name="minipoints" placeholder="Points Cost">                         
+            <input class="w3-input w3-border" type="number" name="minicost" placeholder="Monetary Value">                     
+            <button class="btn-lg w3-block btn-primary w3-small" type="submit" style="opacity: 1;">Send Template</button>       
+
+        </form>
+
+    </div>
 
 </div>
 
