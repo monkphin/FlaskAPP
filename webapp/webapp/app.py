@@ -52,7 +52,7 @@ def register():
 
 
 
-@app.route('/verify', methods=['POST'])
+@app.route('/verify', methods=['POST', 'GET'])
 def verify():
     if request.method == 'POST':
         if request.form['uname'] != "" and request.form['pwd'] != "":
@@ -70,7 +70,7 @@ def verify():
 
 
 #Main page for the site - core functionality of app is here split over two frames - systems and minis, sysmes being where the game system data is, minis being where the collection data is. 
-@app.route('/systems', methods=['POST'])
+@app.route('/systems', methods=['POST', 'GET'])
 def systems():
     if request.method == 'POST':
         if request.form['company'] != "" and request.form['game_system'] != "" and request.form['game_faction'] != "" and request.form['project_name'] != "":
@@ -92,9 +92,9 @@ def systems():
                 cursor.close()          
                 return render_template("systems.html")
 
-    return render_template(systems.html)            
+    return render_template("systems.html")            
 
-@app.route('/main', methods=['POST'])
+@app.route('/main', methods=['POST', 'GET'])
 def main():
     if request.method == 'POST':
         if request.form['mininame'] != "" and request.form['minitype'] != "" and request.form['mininum'] != "":
@@ -110,13 +110,13 @@ def main():
             cursor.close()          
             return render_template("main.html")
 
-'''
-
 #User account settings changed here. 
-@app.route('/account')
+@app.route('/account', methods=['POST', 'GET'])
 def account():
     if request.method == 'POST':
+
         if request.form['pwd'] != "" and request.form['repwd'] != "" and request.form['pwd'] == request.form['repwd']:
+            userName = request.form['uname']
             userPwd = request.form['pwd']
             lastname = request.form['lastname']
             firstname = request.form['firstname']
@@ -129,8 +129,8 @@ def account():
             return render_template("account.html")
         else:    
             return render_template("account.html")
+    return render_template("account.html")
 
-'''
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
