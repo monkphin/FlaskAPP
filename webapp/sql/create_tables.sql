@@ -33,6 +33,7 @@ CREATE TABLE Persons (
 CREATE TABLE Mini_Collection (
     MiniID int NOT NULL AUTO_INCREMENT,
     MiniName VARCHAR(255) NOT NULL,
+    MiniType VARCHAR(255) NOT NULL,
     MiniNum int NOT NULL,
     MiniPoint int,
     MiniCost int,

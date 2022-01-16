@@ -78,24 +78,34 @@ def systems():
             game_system = request.form['game_system']
             game_faction = request.form['game_faction']
             project_name = request.form['project_name']
-            mininame = request.form['mininame']
             cursor = dbRoutines.mysql.connection.cursor()
             cursor.execute(f"use webapp_db;")
-            cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
-            dbRoutines.mysql.connection.commit()                                            
-            cursor.close()          
-            return render_template("systems.html")
+            cursor.execute(f"SELECT COUNT(*) FROM `Game_System` WHERE Project_Name = '{project_name}';")
+            
+            project_list = cursor.fetchall()
+            if project_list[0]['COUNT(*)'] > 0:                     
+                cursor.close()
+                return render_template("message.html", message=f"A Project called '{project_name}' already exists.")
+            else:    
+                cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
+                dbRoutines.mysql.connection.commit()                                            
+                cursor.close()          
+                return render_template("systems.html")
+
+    return render_template(systems.html)            
 
 @app.route('/minis', methods=['POST'])
 def main():
     if request.method == 'POST':
-        if request.form['mininame'] != "" and request.form['mininum'] != "":
+        if request.form['mininame'] != "" and request.form['minitype'] != "" and request.form['mininum'] != "":
+            mininame = request.form['mininame']
+            minitype = request.form['minitype']
             mininum = request.form['mininum']
             minipoint = request.form['minipoint']
             minicost = request.form['minicost']
             cursor = dbRoutines.mysql.connection.cursor()
             cursor.execute(f"use webapp_db;")
-            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{mininum}', '{minipoint}', '{minicost}');")
+            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniType`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{minitype}', '{mininum}', '{minipoint}', '{minicost}');")
             dbRoutines.mysql.connection.commit()                                            
             cursor.close()          
             return render_template("main.html")
