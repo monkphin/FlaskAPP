@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, flash
+from glob import escape
+from flask import Flask, render_template, request, flash, session
 from db_routines import DbRoutines
 
 ########################################################
@@ -6,6 +7,7 @@ from db_routines import DbRoutines
 ########################################################
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'dlkhsdfhfsdf'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'root_password'
 app.config['MYSQL_HOST'] = 'db'
@@ -16,12 +18,18 @@ dbRoutines = DbRoutines(app)
 
 is_registed_user = False
 
+
 @app.route('/')
 def index():
+    if 'username' in session:
+        return 'Hey, {}!'.format(escape(session['username']))  
     return render_template("login.html")
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    if request.method == 'POST':
+        session['username'] = request.form['uname']
+        return render_template('index.html')
     return render_template("login.html")
 
 
@@ -109,6 +117,7 @@ def main():
             dbRoutines.mysql.connection.commit()                                            
             cursor.close()          
             return render_template("main.html")
+    return render_template("main.html")    
 
 #User account settings changed here. 
 @app.route('/account', methods=['POST', 'GET'])
@@ -131,6 +140,11 @@ def account():
             return render_template("account.html")
     return render_template("account.html")
 
+
+@app.route('/logout')    
+def logout():
+    session.pop('uname')
+    return render_template('login.html')
 
 if __name__ == '__main__':
    app.run(host='0.0.0.0', debug=True)
