@@ -13,19 +13,27 @@
 
 {% block content %}
 
-<div class="w3-display-middle">
+<div class="w3-display-center">
+    <form class="w3-xlarge" action="/main" method="post">
+        <div class="w3-display-left">
 
-    <div class="w3-container" style="opacity: 0.7;">
+            <input class="w3-input w3-border" type="text" name="company" placeholder="Game Company">                              
+            <input class="w3-input w3-border" type="text" name="game_system" placeholder="Game System">                           
+            <input class="w3-input w3-border" type="text" name="game_faction" placeholder="Game Faction">                         
+            <input class="w3-input w3-border" type="text" name="project_name" placeholder="Project Name">                     
 
-        <form class="w3-xlarge" action="/main" method="post">
+        </div>
+
+        <div class="w3-display-right">
 
             <input class="w3-input w3-border" type="text" name="mininame" placeholder="Name of Mini">                              
-            <input class="w3-input w3-border" type="number" name="mininum" placeholder="Amount">                           
+            <input class="w3-input w3-border" type="number" name="mininum" placeholder="Number of Minis">                           
             <input class="w3-input w3-border" type="number" name="minipoint" placeholder="Points Cost">                         
             <input class="w3-input w3-border" type="number" name="minicost" placeholder="Monetary Value">                     
-            <button class="btn-lg w3-block btn-primary w3-small" type="submit" style="opacity: 1;">Send Template</button>       
-
-        </form>
+            
+        </div>
+        <button class="btn-lg w3-block btn-primary w3-small" type="submit" style="opacity: 1;">Submit</button>       
+    </form>
 
     </div>
 
