@@ -94,7 +94,7 @@ def systems():
 
     return render_template(systems.html)            
 
-@app.route('/minis', methods=['POST'])
+@app.route('/main', methods=['POST'])
 def main():
     if request.method == 'POST':
         if request.form['mininame'] != "" and request.form['minitype'] != "" and request.form['mininum'] != "":
