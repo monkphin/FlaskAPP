@@ -72,8 +72,8 @@ def verify():
 def main():
     if request.method == 'POST':
         mininame = request.form['mininame']
-        mininum = request.form['minnum']
-        minipoint = request.form['minipooint']
+        mininum = request.form['mininum']
+        minipoint = request.form['minipoint']
         minicost = request.form['minicost']
         cursor = dbRoutines.mysql.connection.cursor()
         cursor.execute(f"use webapp_db;")

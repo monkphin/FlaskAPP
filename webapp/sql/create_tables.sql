@@ -4,7 +4,7 @@ START TRANSACTION;
 USE webapp_db;
 
 -- Drop the Persons table if it exists
-DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS Minis;
 DROP TABLE IF EXISTS Persons;
 DROP TABLE IF EXISTS Credentials;
 
@@ -24,10 +24,8 @@ CREATE TABLE Persons (
     FirstName varchar(255),
     email varchar(255) NOT NULL,
     addr varchar(1024),
-    credId int NOT NULL,
 
     PRIMARY KEY (PersonID),
-    FOREIGN KEY (credId) REFERENCES Credentials(credId)
 );
 
 -- Create the orders table
@@ -37,10 +35,8 @@ CREATE TABLE Minis (
     MiniNum int NOT NULL,
     MiniPoint int,
     MiniCost int,
-    credId int NOT NULL,
 
     PRIMARY KEY (MiniID),
-    FOREIGN KEY (credId) REFERENCES Credentials(credId)
 
 );
 
