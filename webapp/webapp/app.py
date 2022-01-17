@@ -2,6 +2,8 @@ from glob import escape
 from flask import Flask, render_template, request, flash, session
 from db_routines import DbRoutines
 from tables import Credentials, Persons, Game_System, Mini_Collection
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 ########################################################
 # TODO: Make server production grade using 'waitress'  #
@@ -104,7 +106,7 @@ def systems():
                 cursor.close()
                 return render_template("message.html", message=f"A Project called '{project_name}' already exists.")
             else:    
-                cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
+                cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`, `CredId`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}', );")
                 dbRoutines.mysql.connection.commit()                                            
                 cursor.close()          
                 return render_template("systems.html")
@@ -130,7 +132,9 @@ def main():
             minicost = request.form['minicost']
             cursor = dbRoutines.mysql.connection.cursor()
             cursor.execute(f"use webapp_db;")
-            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniType`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{minitype}', '{mininum}', '{minipoint}', '{minicost}');")
+            cursor.execute(f"SELECT (credId) FROM `Credentials`;")
+            credId = cursor.fetchone()
+            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniType`, `MiniNum`, `MiniPoint`, `MiniCost`, `credId`) VALUES ('{mininame}', '{minitype}', '{mininum}', '{minipoint}', '{minicost}', {'credId'});")
             dbRoutines.mysql.connection.commit()                                            
             cursor.close()          
             return render_template("main.html")

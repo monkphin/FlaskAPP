@@ -14,17 +14,15 @@
 {% block content %}
 
 <div class="w3-display-middle">
-
+    {{ table }}
     <div class="w3-container" style="opacity: 0.7;">
 
         <form class="w3-xlarge" action="/register" method="post">
-            {{data}}
+            
             <input class="w3-input w3-border" type="password" name="pwd" placeholder="password">
             <input class="w3-input w3-border" type="password" name="repwd" placeholder="repassword">
 
             <div class="w3-bar w3-small w3-orange w3-padding">
-                <span class="w3-bar-item" style="width:67%">{{ message }}</span>
-
                 <button class="w3-bar-item w3-button w3-green" type="submit" style="width:33%">Change Password</button>
               </div>
 
@@ -36,8 +34,6 @@
             <input class="w3-input w3-border" type="email" name="email" placeholder="Email Address">
 
             <div class="w3-bar w3-small w3-orange w3-padding">
-                <span class="w3-bar-item" style="width:67%">{{ message }}</span>
-
                 <button class="w3-bar-item w3-button w3-green" type="submit" style="width:33%">Submit Changes</button>
               </div>
 

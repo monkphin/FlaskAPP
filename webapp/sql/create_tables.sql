@@ -25,8 +25,24 @@ CREATE TABLE Persons (
     LastName varchar(255) NOT NULL,
     FirstName varchar(255),
     email varchar(255) NOT NULL,
+    credId int NOT NULL,
 
-    PRIMARY KEY (PersonID)
+    PRIMARY KEY (PersonID),
+    FOREIGN KEY (credId) REFERENCES Credentials(credId)
+);
+
+-- Create the Game_System table and set the uniqe auto_incrementing ID - May pull this later - But nice to have DB and relationships here now. 
+CREATE TABLE Game_System (
+    SystemID int NOT NULL AUTO_INCREMENT,
+    Company VARCHAR(255) NOT NULL,
+    Game_System VARCHAR(255) NOT NULL,
+    Game_Faction VARCHAR(255) NOT NULL,
+    Project_Name VARCHAR(255) NOT NULL,
+    credId int NOT NULL,
+
+    PRIMARY KEY (SystemID),
+    FOREIGN KEY (credId) REFERENCES Credentials(credId)
+
 );
 
 -- Create the Collection table and set the uniqe auto_incrementing ID - This gives absolute 'core' level functions, in that we can add or remove items to a collection
@@ -37,22 +53,15 @@ CREATE TABLE Mini_Collection (
     MiniNum int NOT NULL,
     MiniPoint int,
     MiniCost int,
+    credId int NOT NULL,
+    SystemID int NOT NULL,
 
-    PRIMARY KEY (MiniID)
-
-);
-
--- Create the Game_System table and set the uniqe auto_incrementing ID - May pull this later - But nice to have DB and relationships here now. 
-CREATE TABLE Game_System (
-    SystemID int NOT NULL AUTO_INCREMENT,
-    Company VARCHAR(255) NOT NULL,
-    Game_System VARCHAR(255) NOT NULL,
-    Game_Faction VARCHAR(255) NOT NULL,
-    Project_Name VARCHAR(255) NOT NULL,
- 
-    PRIMARY KEY (SystemID)
+    PRIMARY KEY (MiniID),
+    FOREIGN KEY (credId) REFERENCES Credentials(credId),
+    FOREIGN KEY (SystemID) REFERENCES Game_System(SystemID)
 
 );
+
 
 -- The below is for future expansion as the project develops. See Project Outlines
 

@@ -10,6 +10,9 @@ class Persons(Table):
     LastName = Col('LastName')
     FirstName = Col('FirstName')
     email = Col('email')
+    edit = LinkCol('Edit', 'edit_view', url_kwargs=dict(id='Personid'))
+    delete = LinkCol('Delete', 'delete_user', url_kwargs=dict(id='Personid'))
+
 
 class Game_System(Table):
     SystemID = Col('SystemID', show=False)
@@ -20,6 +23,7 @@ class Game_System(Table):
 class Mini_Collection(Table):
     MiniID = Col('MiniID', show=False)
     MiniName = Col('MiniName')
+    MiniType = Col('MiniType')
     MiniNum = Col('MiniNum')
     MiniPoint = Col('MiniPoint')
     MiniCost = Col('MiniCost')
