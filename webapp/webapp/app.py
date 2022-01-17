@@ -104,6 +104,13 @@ def systems():
 
 @app.route('/main', methods=['POST', 'GET'])
 def main():
+    if request.method == 'GET':
+        cursor = dbRoutines.mysql.connection.cursor()
+        cursor.execute(f"use webapp_db;")
+        cursor.execute("SELECT * FROM `Mini_Collection` WHERE 1")
+        output = cursor.fetchall()
+        cursor.close() 
+        return render_template('main.html', data = output)
     if request.method == 'POST':
         if request.form['mininame'] != "" and request.form['minitype'] != "" and request.form['mininum'] != "":
             mininame = request.form['mininame']
