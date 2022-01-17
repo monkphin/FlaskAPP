@@ -1,6 +1,7 @@
 from glob import escape
 from flask import Flask, render_template, request, flash, session
 from db_routines import DbRoutines
+from tables import Credentials, Persons, Game_System, Mini_Collection
 
 ########################################################
 # TODO: Make server production grade using 'waitress'  #
@@ -21,15 +22,15 @@ is_registed_user = False
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        return 'Hey, {}!'.format(escape(session['username']))  
+#    if 'username' in session:
+#        return 'Hey, {}!'.format(escape(session['username']))  
     return render_template("login.html")
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'POST':
-        session['username'] = request.form['uname']
-        return render_template('index.html')
+#    if request.method == 'POST':
+#        session['username'] = request.form['uname']
+#        return render_template('index.html')
     return render_template("login.html")
 
 
@@ -81,6 +82,14 @@ def verify():
 @app.route('/systems', methods=['POST', 'GET'])
 def systems():
     if request.method == 'POST':
+        if request.method == 'GET':
+            cursor = dbRoutines.mysql.connection.cursor()
+            cursor.execute(f"use webapp_db;")
+            cursor.execute("SELECT * FROM `Game_System`")
+            rows = cursor.fetchall()
+            table = Game_System(rows)
+            cursor.close() 
+            return render_template('main.html', table = table)
         if request.form['company'] != "" and request.form['game_system'] != "" and request.form['game_faction'] != "" and request.form['project_name'] != "":
             company = request.form['company']
             game_system = request.form['game_system']
@@ -107,10 +116,11 @@ def main():
     if request.method == 'GET':
         cursor = dbRoutines.mysql.connection.cursor()
         cursor.execute(f"use webapp_db;")
-        cursor.execute("SELECT * FROM `Mini_Collection` WHERE 1")
-        output = cursor.fetchall()
+        cursor.execute("SELECT * FROM `Mini_Collection`")
+        rows = cursor.fetchall()
+        table = Mini_Collection(rows)
         cursor.close() 
-        return render_template('main.html', data = output)
+        return render_template('main.html', table = table)
     if request.method == 'POST':
         if request.form['mininame'] != "" and request.form['minitype'] != "" and request.form['mininum'] != "":
             mininame = request.form['mininame']
@@ -136,6 +146,7 @@ def account():
         output = cursor.fetchone()
         cursor.close() 
         return render_template('account.html', data = output)
+
     if request.form['pwd'] != "" and request.form['repwd'] != "" and request.form['pwd'] == request.form['repwd']:
         userName = request.form['uname']
         userPwd = request.form['pwd']
@@ -155,7 +166,7 @@ def account():
 
 @app.route('/logout')    
 def logout():
-    session.pop('uname')
+#    session.pop('uname')
     return render_template('login.html')
 
 if __name__ == '__main__':

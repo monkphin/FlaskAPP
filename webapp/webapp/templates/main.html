@@ -14,7 +14,7 @@
 {% block content %}
 <div class="w3-display-center">
     <div class="w3-display-left">
-        <iframe src="/systems" title="Game Systems" height="280" width="300" style="border:none;"></iframe>
+        <iframe src="/systems" title="Game Systems" height="790" width="300" style="border:none;"></iframe>
     </div>
 
     <div class="w3-display-right">
@@ -35,18 +35,22 @@
                         <td><input type="number" name="minipoint" placeholder="0"></td>                  
                         <td><input type="number" name="minicost" placeholder="0"></td>                  
                     </tr>
-                        <td>{{data}}</td>
-                        <td>{% for i in data %}{{i}}{% endfor %}</td>
+                    <tr>    
+                        <td></td>
+                        <td></td>
                         <td></td>
                         <td></td>
                         <td></td>                                                
+                    </tr>
                 </table>
+
             </div>
             <div>
                 <button class="btn-lg w3-block btn-primary w3-small" type="submit" style="opacity: 1;">Submit</button>       
             </div>
         </form>
-  
+        {{ table }}
+
     </div>
 </div>
 
