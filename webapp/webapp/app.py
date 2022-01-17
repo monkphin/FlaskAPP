@@ -122,22 +122,27 @@ def main():
 #User account settings changed here. 
 @app.route('/account', methods=['POST', 'GET'])
 def account():
-    if request.method == 'POST':
-
-        if request.form['pwd'] != "" and request.form['repwd'] != "" and request.form['pwd'] == request.form['repwd']:
-            userName = request.form['uname']
-            userPwd = request.form['pwd']
-            lastname = request.form['lastname']
-            firstname = request.form['firstname']
-            email = request.form['email']
-            cursor = dbRoutines.mysql.connection.cursor()
-            cursor.execute(f"use webapp_db;")
-            cursor.execute (f"INSERT INTO `Persons` (`LastName`, `FirstName`, `email`) VALUES ('{lastname}', '{firstname}', '{email}')")
-            dbRoutines.mysql.connection.commit()                                            
-            cursor.close()
-            return render_template("account.html")
-        else:    
-            return render_template("account.html")
+    if request.method == 'GET':
+        cursor = dbRoutines.mysql.connection.cursor()
+        cursor.execute(f"use webapp_db;")
+        cursor.execute("SELECT `username` FROM `Credentials` WHERE 1;")
+        output = cursor.fetchone()
+        cursor.close() 
+        return render_template('account.html', data = output)
+    if request.form['pwd'] != "" and request.form['repwd'] != "" and request.form['pwd'] == request.form['repwd']:
+        userName = request.form['uname']
+        userPwd = request.form['pwd']
+        lastname = request.form['lastname']
+        firstname = request.form['firstname']
+        email = request.form['email']
+        cursor = dbRoutines.mysql.connection.cursor()
+        cursor.execute(f"use webapp_db;")
+        cursor.execute (f"INSERT INTO `Persons` (`LastName`, `FirstName`, `email`) VALUES ('{lastname}', '{firstname}', '{email}')")
+        dbRoutines.mysql.connection.commit()                                            
+        cursor.close()
+        return render_template("account.html")
+    else:    
+        return render_template("account.html")
     return render_template("account.html")
 
 
