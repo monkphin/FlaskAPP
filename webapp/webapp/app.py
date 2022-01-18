@@ -4,9 +4,15 @@ from tables import Credentials, Persons, Game_System, Mini_Collection
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
-########################################################
-# TODO: Make server production grade using 'waitress'  #
-########################################################
+#############################################################
+# TODO: Make server production grade using 'waitress'       #
+# TODO: Add user session control                            #
+# TODO: Add full reklationship functionality                #
+# TODO: Implelemnt U and D aspects of CRUD                  #
+# TODO: Refactor code to break content down into logical    #
+# files - eg have an init file, etc...                      #
+# TODO: Make pretty                                         #
+#############################################################
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dlkhsdfhfsdf'
