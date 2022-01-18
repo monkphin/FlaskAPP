@@ -5,8 +5,8 @@ USE webapp_db;
 
 -- Drop the Persons table if it exists
 DROP TABLE IF EXISTS Persons;
-DROP TABLE IF EXISTS Game_System;
 DROP TABLE IF EXISTS Mini_Collection;
+DROP TABLE IF EXISTS Game_System;
 DROP TABLE IF EXISTS Credentials;
 
 
@@ -27,8 +27,8 @@ CREATE TABLE Persons (
     email varchar(255) NOT NULL,
     credId int NOT NULL,
 
-    PRIMARY KEY (PersonID),
-    FOREIGN KEY (credId) REFERENCES Credentials(credId)
+    PRIMARY KEY (PersonID)
+--    FOREIGN KEY (credId) REFERENCES Credentials(credId)                   Come back to f_keys later when I work out how to make them work right. 
 );
 
 -- Create the Game_System table and set the uniqe auto_incrementing ID - May pull this later - But nice to have DB and relationships here now. 
@@ -40,8 +40,8 @@ CREATE TABLE Game_System (
     Project_Name VARCHAR(255) NOT NULL,
     credId int NOT NULL,
 
-    PRIMARY KEY (SystemID),
-    FOREIGN KEY (credId) REFERENCES Credentials(credId)
+    PRIMARY KEY (SystemID)
+--    FOREIGN KEY (credId) REFERENCES Credentials(credId)                   Come back to f_keys later when I work out how to make them work right. 
 
 );
 
@@ -56,9 +56,9 @@ CREATE TABLE Mini_Collection (
     credId int NOT NULL,
     SystemID int NOT NULL,
 
-    PRIMARY KEY (MiniID),
-    FOREIGN KEY (credId) REFERENCES Credentials(credId),
-    FOREIGN KEY (SystemID) REFERENCES Game_System(SystemID)
+    PRIMARY KEY (MiniID)
+--    FOREIGN KEY (credId) REFERENCES Credentials(credId),                      Come back to f_keys later when I work out how to make them work right. 
+--    FOREIGN KEY (SystemID) REFERENCES Game_System(SystemID)                   Come back to f_keys later when I work out how to make them work right. 
 
 );
 

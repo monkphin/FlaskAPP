@@ -1,4 +1,3 @@
-from glob import escape
 from flask import Flask, render_template, request, flash, session
 from db_routines import DbRoutines
 from tables import Credentials, Persons, Game_System, Mini_Collection
@@ -106,7 +105,19 @@ def systems():
                 cursor.close()
                 return render_template("message.html", message=f"A Project called '{project_name}' already exists.")
             else:    
-                cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`, `CredId`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}', );")
+                cursor = dbRoutines.mysql.connection.cursor()
+                cursor.execute(f"use webapp_db;")
+                '''
+                ////                                                                                                     Start hacky code                                                                                        ////
+                hacky method to get the CredID and SystemID to populate into the Mini_Collection table when adding content.. I'm certain theirs a better way, but I have no idea what it is for now and lack time to really research....
+                                                                        THIS IS NOT PRODUCTION READY CODE PLEASE INVESTIGATE A BETTER AND MORE SECURE WAY TO DO THIS USING USER SESSIONS ETC 
+                                                                                                                     Turns out this doesnt work. 
+
+                ////                                                                                                                                                                                                             ////
+                cursor.execute(f"SELECT (credId) FROM `Credentials`;")
+                credId = cursor.fetchone()                                                                                                                       //// end hack ////
+                '''
+                cursor.execute (f"INSERT INTO `Game_System` (`Company`, `Game_System`, `Game_Faction`, `Project_Name`) VALUES ('{company}', '{game_system}', '{game_faction}', '{project_name}');")
                 dbRoutines.mysql.connection.commit()                                            
                 cursor.close()          
                 return render_template("systems.html")
@@ -130,11 +141,20 @@ def main():
             mininum = request.form['mininum']
             minipoint = request.form['minipoint']
             minicost = request.form['minicost']
+            '''
             cursor = dbRoutines.mysql.connection.cursor()
             cursor.execute(f"use webapp_db;")
+            ////                                                                                                     Start hacky code                                                                                        ////
+            hacky method to get the CredID and SystemID to populate into the Mini_Collection table when adding content.. I'm certain theirs a better way, but I have no idea what it is for now and lack time to really research....
+                                                                THIS IS NOT PRODUCTION READY CODE PLEASE INVESTIGATE A BETTER AND MORE SECURE WAY TO DO THIS USING USER SESSIONS ETC 
+                                                                                                                  Turns out this doesnt work. 
+            ////                                                                                                                                                                                                             ////
             cursor.execute(f"SELECT (credId) FROM `Credentials`;")
-            credId = cursor.fetchone()
-            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniType`, `MiniNum`, `MiniPoint`, `MiniCost`, `credId`) VALUES ('{mininame}', '{minitype}', '{mininum}', '{minipoint}', '{minicost}', {'credId'});")
+            cursor.execute(f"SELECT (SystemID) FROM `Game_System`;")
+            cred = cursor.fetchone()
+            system = cursor.fetchone()                                                                                                                   //// end hack ////
+            '''
+            cursor.execute (f"INSERT INTO `Mini_Collection` (`MiniName`, `MiniType`, `MiniNum`, `MiniPoint`, `MiniCost`) VALUES ('{mininame}', '{minitype}', '{mininum}', '{minipoint}', '{minicost}');")
             dbRoutines.mysql.connection.commit()                                            
             cursor.close()          
             return render_template("main.html")
@@ -166,6 +186,15 @@ def account():
     else:    
         return render_template("account.html")
     return render_template("account.html")
+
+
+@app.route('update', methods=['POST', 'GET'])
+def update():
+    pass
+
+@app.route('delete', methods=['POST', 'GET'])
+def delete():
+    pass
 
 
 @app.route('/logout')    
